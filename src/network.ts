@@ -14,11 +14,19 @@ import { PLAYER_COLORS } from "./constants";
 const players: Map<string, PlayerState> = new Map();
 
 export async function initNetwork(): Promise<void> {
-  await insertCoin({ maxPlayersPerRoom: 8 });
+  await insertCoin({ maxPlayersPerRoom: 8, skipLobby: true });
 
   const me = myPlayer();
   if (me) {
     useGameStore.getState().setMyId(me.id);
+  }
+
+  if (isHost()) {
+    const gameState = getState("gameState") as string | undefined;
+    if (gameState && gameState !== "lobby") {
+      setState("gameState", "lobby", true);
+      setState("results", null, true);
+    }
   }
 
   onPlayerJoin((player) => {

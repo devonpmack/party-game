@@ -17,6 +17,7 @@ export function Lobby() {
       player.setState("pos", { x: laneX, y: 1, z: START_Z }, true);
       player.setState("prevPos", { x: laneX, y: 1, z: START_Z }, true);
       player.setState("eliminated", false, true);
+      player.setState("pendingShot", false, true);
     });
     setState("light", "green", true);
     setState("roundTime", 0, true);
